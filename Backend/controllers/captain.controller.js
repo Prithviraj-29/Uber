@@ -3,13 +3,14 @@ const captainService = require('../services/captain.service');
 const { validationResult } = require('express-validator');
 
 //register captain
-module.exports.registerCaptain = async(res,requestAnimationFrame,next)=>{
+module.exports.registerCaptain = async(req,res,next)=>{
     const errors = validationResult(req);
     if(!errors.isEmpty()){
-        return res.status(400).json({erros: errors.array()});
+        return res.status(400).json({errors: errors.array()});
     }
+    console.log(req.body)
 
-    const {fullname, email, password, vechicle} = req.body;
+    const {fullname, email, password, vehicle} = req.body;
 
     const isCaptainAlreadyExist = await captainModel.findOne({email});
     if(isCaptainAlreadyExist){
@@ -18,14 +19,14 @@ module.exports.registerCaptain = async(res,requestAnimationFrame,next)=>{
 
     const hashedPassword = await captainModel.hashPassword(password);
     const captain = await captainService.createCaptain({
-        firstname : fullname.firstname,
-        lastname : fullname.lastname,
+        firstname: fullname.firstname,
+        lastname: fullname.lastname,
         email,
         password:hashedPassword,
-        color: vechicle.color,
-        plate: vechicle.plate,
-        capacity:vechicle.capacity,
-        vehicleType:vechicle.vehicleType
+        color: vehicle.color,
+        plate: vehicle.plate,
+        capacity:vehicle.capacity,
+        vehicleType:vehicle.vehicleType
     })
 
     const token =captain.generateAuthToken();
