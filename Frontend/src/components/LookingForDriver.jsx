@@ -1,10 +1,10 @@
 import React from 'react'
 
-const LookingForDriver = () => {
-  return (
-    <div>
+const LookingForDriver = (props) => {
+    return (
+        <div>
             <h5 className='p-3 text-center w-[90%] absolute top-0' onClick={() => {
-                props.setVehiclePanelOpen(false)
+                props.setVehicleFound(false)
             }}><i className="text-3xl text-gray-300 ri-arrow-down-wide-fill"></i></h5>
             <h3 className='text-2xl font-semibold mb-5'>Looking for driver </h3>
             <div className='flex flex-col justify-between items-center gap-2 '>
@@ -17,15 +17,15 @@ const LookingForDriver = () => {
                             <p className='text-gray-600 text-sm -mt-1'>kankariya Talab, Hyderabad</p>
                         </div>
                     </div>
-                    <div  className='flex items-center gap-5 p-2 border-b-2 border-gray-200'>
-                    <i className="text-lg ri-map-pin-range-line"></i>
+                    <div className='flex items-center gap-5 p-2 border-b-2 border-gray-200'>
+                        <i className="text-lg ri-map-pin-range-line"></i>
                         <div>
                             <h3 className='text-lg font-medium'>102-4/A</h3>
                             <p className='text-gray-600 text-sm -mt-1'>Road no.5 Jubliee hills, Hyderabad</p>
                         </div>
                     </div>
-                    <div  className='flex items-center gap-5 p-2 border-gray-400'>
-                    <i className="text-lg ri-currency-line"></i>
+                    <div className='flex items-center gap-5 p-2 border-gray-400'>
+                        <i className="text-lg ri-currency-line"></i>
                         <div>
                             <h3 className='text-lg font-medium'>₹ 74.45</h3>
                             <p className='text-gray-600 text-sm -mt-1'>Pay at destination</p>
@@ -33,7 +33,7 @@ const LookingForDriver = () => {
                 </div>
             </div>
         </div>
-  )
+    )
 }
 
 export default LookingForDriver

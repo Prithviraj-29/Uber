@@ -7,6 +7,8 @@ import LocationSearchPanel from '../components/LocationSearchPanel'
 import VehiclePanel from '../components/VehiclePanel'
 import ConfirmRide from '../components/ConfirmRide'
 import LookingForDriver from '../components/LookingForDriver'
+import WaitingForDriver from '../components/WaitingForDriver'
+import { Link } from 'react-router-dom'
 
 
 const Home = () => {
@@ -19,17 +21,19 @@ const Home = () => {
   const panelRef = useRef(null)
   const panelCloseRef = useRef(null)
   const confirmRidePanelRef = useRef(null)
-  const vehicleFoundRef =useRef(null)
+  const vehicleFoundRef = useRef(null)
+  const waitingForDriverRef = useRef(null)
 
   const [vehiclePanelOpen, setVehiclePanelOpen] = useState(false)
-  const [confirmRidePanal,setConfirmRidePanel] = useState(false)
-  const [vehicleFound,setVehicleFound] = useState(false)
+  const [confirmRidePanal, setConfirmRidePanel] = useState(false)
+  const [vehicleFound, setVehicleFound] = useState(false)
+  const [waitingForDriver, setWaitingForDriver] = useState(false)
 
   const submitHandler = () => {
     e.preventDefault()
 
   }
-  //source and destination
+  //source and destination animate
   useGSAP(function () {
     if (panelOpen) {
       gsap.to(panelRef.current, {
@@ -53,7 +57,7 @@ const Home = () => {
       })
     }
   }, [panelOpen])
-//vehicle panel
+  //vehicle panel animate
   useGSAP(function () {
     if (vehiclePanelOpen) {
       gsap.to(vehiclePanelRef.current, {
@@ -66,7 +70,7 @@ const Home = () => {
     }
 
   }, [vehiclePanelOpen])
-//confirm ride panel
+  //confirm ride panel animate
   useGSAP(function () {
     if (confirmRidePanal) {
       gsap.to(confirmRidePanelRef.current, {
@@ -79,7 +83,7 @@ const Home = () => {
     }
 
   }, [confirmRidePanal])
-//looking for driver panel
+  //looking for driver panel animate
   useGSAP(function () {
     if (vehicleFound) {
       gsap.to(vehicleFoundRef.current, {
@@ -93,8 +97,23 @@ const Home = () => {
 
   }, [vehicleFound])
 
+  //waiting for driver screen animate
+  useGSAP(function () {
+    if (waitingForDriver) {
+      gsap.to(waitingForDriverRef.current, {
+        transform: 'translateY(0)'
+      })
+    } else {
+      gsap.to(waitingForDriverRef.current, {
+        transform: 'translateY(100%)'
+      })
+    }
+
+  }, [waitingForDriver])
+
   return (
     <div className='h-screen over'  >
+
       <img className='w-20 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" />
 
       <div className='h-screen w-screen'>
@@ -139,16 +158,18 @@ const Home = () => {
       </div>
 
       <div ref={vehiclePanelRef} className='fixed z-10 bottom-0 translate-y-full p-3 bg-white w-full py-10 px-3 pt-14'>
-        <VehiclePanel setVehiclePanelOpen={setVehiclePanelOpen} setConfirmRidePanel={setConfirmRidePanel}/>
+        <VehiclePanel setVehiclePanelOpen={setVehiclePanelOpen} setConfirmRidePanel={setConfirmRidePanel} />
       </div>
 
       <div ref={confirmRidePanelRef} className='fixed z-10 bottom-0 translate-y-full p-3 bg-white w-full py-10 px-3 pt-14'>
-        <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound}/>
+        <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
       </div>
       <div ref={vehicleFoundRef} className='fixed z-10 bottom-0 translate-y-full p-3 bg-white w-full py-10 px-3 pt-14'>
-        <LookingForDriver/>
+        <LookingForDriver setVehicleFound={setVehicleFound} />
       </div>
-      
+      <div ref={waitingForDriverRef} className='fixed z-10 bottom-0 p-3 bg-white w-full py-10 px-3 pt-14'>
+        <WaitingForDriver setWaitingForDriver={setWaitingForDriver} />
+      </div>
     </div>
 
   )
