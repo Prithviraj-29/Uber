@@ -47,8 +47,8 @@ module.exports.getDistanceTime = async (origin, destination) => {
             const route = response.data.routes[0]
             console.log("route value:", route)
             return {
-                duration: `${Math.round(route.duration/60)}minutes`,
-                distance: `${(route.distance/1000).toFixed(2)} km`,
+                duration: `${Math.round(route.duration / 60)}minutes`,
+                distance: `${(route.distance / 1000).toFixed(2)} km`,
             };
         } else {
             throw new Error("no valid routes found.")
@@ -61,3 +61,23 @@ module.exports.getDistanceTime = async (origin, destination) => {
     }
 };
 
+module.exports.getAutoCompleteSuggestions = async (input) => {
+    if (!input) {
+        throw new Error('query is required');
+    }
+    const apiKey = process.env.LOCATIONIQ_API_KEY;
+    const url = `https://api.locationiq.com/v1/autocomplete.php?key=${apiKey}&q=${encodeURIComponent(input)}&limit=5`
+
+    try {
+        const response = await axios.get(url)
+        if (response.data && response.data.length > 0) {
+            return response.data
+        } else {
+            throw new Error('Unable to fetch suggestions');
+        }
+    } catch (err) {
+        console.error(err)
+        throw err;
+
+    }
+}
