@@ -47,8 +47,11 @@ module.exports.getDistanceTime = async (origin, destination) => {
             const route = response.data.routes[0]
             console.log("route value:", route)
             return {
-                duration: `${Math.round(route.duration / 60)}minutes`,
-                distance: `${(route.distance / 1000).toFixed(2)} km`,
+                // duration: `${Math.round(route.duration / 60)}minutes`,
+                // distance: `${(route.distance / 1000).toFixed(2)} km`,
+                duration: route.duration,
+                distance:route.distance,
+                
             };
         } else {
             throw new Error("no valid routes found.")
