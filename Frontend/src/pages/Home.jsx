@@ -23,6 +23,7 @@ const Home = () => {
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
   const [vehicleFound, setVehicleFound] = useState(false);
   const [waitingForDriver, setWaitingForDriver] = useState(false);
+  const [fare,setFare] =useState({})
 
   const vehiclePanelRef = useRef(null);
   const panelRef = useRef(null);
@@ -90,6 +91,37 @@ const Home = () => {
     gsap.to(waitingForDriverRef.current, { transform: waitingForDriver ? 'translateY(0)' : 'translateY(100%)' });
   }, [waitingForDriver]);
 
+  async function findTrip() {
+    try {
+      setPanelOpen(false);
+      setVehiclePanelOpen(true);
+  
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error("Authentication token is missing");
+        return;
+      }
+  
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/ride/get-fare`, {
+        params: { pickup, destination },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      if (response.status === 200) {
+        console.log(response.data);
+        setFare(response.data);
+      } else {
+        console.error("Unexpected response:", response);
+      }
+    } catch (error) {
+      console.error("Error fetching fare:", error.response ? error.response.data : error.message);
+  
+      // Show an alert or message to the user if needed
+      alert("Failed to fetch fare. Please try again.");
+    }
+  }
+  
+
   return (
     <div className='h-screen relative'>
       <img className='w-20 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="Uber Logo" />
@@ -99,13 +131,13 @@ const Home = () => {
       </div>
 
       <div className='flex flex-col justify-end h-screen absolute top-0 w-full rounded-t-xl'>
-        <div className='bg-white p-6 h-[30%] relative'>
+        <div className='bg-white p-6 h-[35%] relative'>
           <h5 ref={panelCloseRef} onClick={() => setPanelOpen(false)} className='absolute opacity-0 top-7 right-6 text-2xl'>
             <i className="ri-arrow-down-wide-fill"></i>
           </h5>
           <h4 className='text-2xl font-semibold'>Find a Trip</h4>
           <form onSubmit={submitHandler}>
-            <div className='line absolute h-15 w-1 top-[46%] bg-black rounded-full left-11'></div>
+            <div className='line absolute h-15 w-1 top-[40%] bg-black rounded-full left-11'></div>
 
             <input
               onClick={() => { setPanelOpen(true); setActiveField('pickup'); }}
@@ -115,7 +147,7 @@ const Home = () => {
               type="text"
               placeholder='Enter pick-up location'
             />
-            
+
 
             <input
               onClick={() => { setPanelOpen(true); setActiveField('destination'); }}
@@ -125,8 +157,14 @@ const Home = () => {
               type="text"
               placeholder='Where to?'
             />
-            
+            <button  className='bg-black text-white px-3 text-sm py-2 rounded-lg mt-3 w-full'
+              onClick={findTrip}>
+              Find a Trip
+            </button>
+
           </form>
+
+
         </div>
 
         <div ref={panelRef} className='bg-white h-0'>
@@ -142,7 +180,7 @@ const Home = () => {
       </div>
 
       <div ref={vehiclePanelRef} className='fixed z-10 bottom-0 translate-y-full p-3 bg-white w-full py-10 px-3 pt-14'>
-        <VehiclePanel setVehiclePanelOpen={setVehiclePanelOpen} setConfirmRidePanel={setConfirmRidePanel} />
+        <VehiclePanel fare ={fare} setVehiclePanelOpen={setVehiclePanelOpen} setConfirmRidePanel={setConfirmRidePanel} />
       </div>
 
       <div ref={confirmRidePanelRef} className='fixed z-10 bottom-0 translate-y-full p-3 bg-white w-full py-10 px-3 pt-14'>

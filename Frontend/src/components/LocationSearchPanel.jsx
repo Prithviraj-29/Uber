@@ -8,7 +8,7 @@ const LocationSearchPanel = ({ suggestions, setPanelOpen, setPickup, setDestinat
     } else if (activeField === 'destination') {
       setDestination(suggestion.display_name);
     }
-    setPanelOpen(false); // Close panel after selection
+    // setPanelOpen(false); // Close panel after selection
   };
 
   return (
