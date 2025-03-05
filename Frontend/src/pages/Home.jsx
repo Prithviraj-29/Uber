@@ -23,7 +23,8 @@ const Home = () => {
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
   const [vehicleFound, setVehicleFound] = useState(false);
   const [waitingForDriver, setWaitingForDriver] = useState(false);
-  const [fare,setFare] =useState({})
+  const [fare, setFare] = useState({})
+  const [vehicleType, setVehicleType] = useState(null)
 
   const vehiclePanelRef = useRef(null);
   const panelRef = useRef(null);
@@ -95,18 +96,18 @@ const Home = () => {
     try {
       setPanelOpen(false);
       setVehiclePanelOpen(true);
-  
+
       const token = localStorage.getItem('token');
       if (!token) {
         console.error("Authentication token is missing");
         return;
       }
-  
+
       const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/ride/get-fare`, {
         params: { pickup, destination },
         headers: { Authorization: `Bearer ${token}` },
       });
-  
+
       if (response.status === 200) {
         console.log(response.data);
         setFare(response.data);
@@ -115,12 +116,32 @@ const Home = () => {
       }
     } catch (error) {
       console.error("Error fetching fare:", error.response ? error.response.data : error.message);
-  
+
       // Show an alert or message to the user if needed
       alert("Failed to fetch fare. Please try again.");
     }
   }
-  
+
+  async function createRide() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error("Authentication token is missing");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/ride/create`,
+        { pickup, destination, vehicleType },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error creating ride:", error.response?.data || error.message);
+    }
+  }
+
+
 
   return (
     <div className='h-screen relative'>
@@ -157,7 +178,7 @@ const Home = () => {
               type="text"
               placeholder='Where to?'
             />
-            <button  className='bg-black text-white px-3 text-sm py-2 rounded-lg mt-3 w-full'
+            <button className='bg-black text-white px-3 text-sm py-2 rounded-lg mt-3 w-full'
               onClick={findTrip}>
               Find a Trip
             </button>
@@ -180,15 +201,27 @@ const Home = () => {
       </div>
 
       <div ref={vehiclePanelRef} className='fixed z-10 bottom-0 translate-y-full p-3 bg-white w-full py-10 px-3 pt-14'>
-        <VehiclePanel fare ={fare} setVehiclePanelOpen={setVehiclePanelOpen} setConfirmRidePanel={setConfirmRidePanel} />
+        <VehiclePanel fare={fare} selectVehicle={setVehicleType} setVehiclePanelOpen={setVehiclePanelOpen} setConfirmRidePanel={setConfirmRidePanel} />
       </div>
 
       <div ref={confirmRidePanelRef} className='fixed z-10 bottom-0 translate-y-full p-3 bg-white w-full py-10 px-3 pt-14'>
-        <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+        <ConfirmRide
+          createRide={createRide}
+          pickup={pickup}
+          destination={destination}
+          fare={fare}
+          vehicleType={vehicleType}
+          setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
       </div>
 
       <div ref={vehicleFoundRef} className='fixed z-10 bottom-0 translate-y-full p-3 bg-white w-full py-10 px-3 pt-14'>
-        <LookingForDriver setVehicleFound={setVehicleFound} />
+        <LookingForDriver
+          createRide={createRide}
+          pickup={pickup}
+          destination={destination}
+          fare={fare}
+          vehicleType={vehicleType}
+          setVehicleFound={setVehicleFound} />
       </div>
 
       <div ref={waitingForDriverRef} className='fixed z-10 bottom-0 p-3 bg-white w-full py-10 px-3 pt-14'>
