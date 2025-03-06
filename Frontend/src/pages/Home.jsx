@@ -122,12 +122,13 @@ const Home = () => {
     }
   }
 
-  async function createRide() {
+  async function createRide(pickup, destination, vehicleType) {
     const token = localStorage.getItem('token');
     if (!token) {
       console.error("Authentication token is missing");
       return;
     }
+    
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/ride/create`,

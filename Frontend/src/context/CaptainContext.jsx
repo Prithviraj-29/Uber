@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react'
 
-export const CaptainDataContext = createContext()
+export const CaptainDataContext = createContext(null)
 
 const CaptainContext = ({children}) => {
 

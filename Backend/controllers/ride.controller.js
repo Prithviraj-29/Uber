@@ -5,11 +5,13 @@ const mongoose = require("mongoose");
 module.exports.createRide = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+        console.log("Validation Errors:", errors.array());
         return res.status(400).json({ errors: errors.array() });
     }
 
     const { pickup, destination, vehicleType } = req.body;
-    const userId = req.user._id;  // ✅ Extract userId from authenticated user
+    const userId = req.user._id;  
+    console.log("User ID:", userId);
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
         return res.status(400).json({ errors: [{ msg: "Invalid user id format" }] });
