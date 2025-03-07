@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import mapimg from '../images/uber-map.png'
 import CaptainDetails from '../components/CaptainDetails'
@@ -6,13 +6,25 @@ import RidePopUp from '../components/RidePopUp'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import ConfirmRidePopUp from '../components/ConfirmRidePopUp'
-
+import { socketContext } from '../context/SocketContext'
+import { CaptainDataContext } from '../context/CaptainContext'
+import { useEffect } from 'react'
 
 const CaptainHome = () => {
 
   const [ridePopUpPanel , setRidePopUpPanel]= useState(true);
   const [confirmRidePopUpPanel , setConfirmRidePopUpPanel]= useState(false);
   
+  const {socket} =useContext(socketContext)
+  const {captain} = useContext(CaptainDataContext)
+
+  useEffect(()=>{
+    socket.emit('join',{
+      userId:captain._id,
+      userType:'captain'
+    })
+  },[captain])
+
   const ridePopUpPanelRef = useRef(null);
   const confirmRidePopUpPanelRef = useRef(null);
 

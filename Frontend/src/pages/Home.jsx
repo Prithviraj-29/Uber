@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect, useContext } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import axios from 'axios';
@@ -11,6 +11,8 @@ import ConfirmRide from '../components/ConfirmRide';
 import LookingForDriver from '../components/LookingForDriver';
 import WaitingForDriver from '../components/WaitingForDriver';
 import { Link } from 'react-router-dom';
+import { socketContext } from '../context/SocketContext';
+import { UserDataContext } from '../context/UserContext';
 
 const Home = () => {
   const [pickup, setPickup] = useState('');
@@ -25,6 +27,14 @@ const Home = () => {
   const [waitingForDriver, setWaitingForDriver] = useState(false);
   const [fare, setFare] = useState({})
   const [vehicleType, setVehicleType] = useState(null)
+
+  const {socket} =useContext(socketContext)
+  const {user} =useContext(UserDataContext)
+
+  useEffect(()=>{
+    socket.emit("join",{userType:"user",userId:user._id})
+    
+  },[user])
 
   const vehiclePanelRef = useRef(null);
   const panelRef = useRef(null);
