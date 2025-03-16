@@ -10,6 +10,23 @@ This project is a ride-hailing application similar to Uber, where users can book
 - Fare calculation based on distance and vehicle type
 - Real-time captain availability within a specified radius
 
+## Project Screenshots
+
+### User Screens
+<div style="display: flex; justify-content: space-between;">
+    <img src="./ScreenShots/Pickup_and_dest.png" alt="User Dashboard" width="30%"/>
+    <img src="./ScreenShots/prices.png" alt="User Profile" width="30%"/>
+    <img src="./ScreenShots/confirm.png" alt="User Ride History" width="30%"/>
+</div>
+
+### Captain Screens
+<div style="display: flex; justify-content: space-between;">
+    <img src="./ScreenShots/captain_dashboard.png" alt="Captain Dashboard" width="30%"/>
+    <img src="./ScreenShots/ride_request.png" alt="Captain Ride Requests" width="30%"/>
+    <img src="./ScreenShots/accept_ride.png" alt="Captain Earnings" width="30%"/>
+</div>
+
+
 ## Models
 
 ### User Model
@@ -178,22 +195,6 @@ module.exports.getCaptainInTheRadius = async (ltd, lng, radius) => {
     return captains;
 };
 ```
-
-## Screenshots
-
-### User Screens
-<div style="display: flex; justify-content: space-between;">
-    <img src="./ScreenShots/Pickup_and_dest.png" alt="User Dashboard" width="30%"/>
-    <img src="./ScreenShots/prices.png" alt="User Profile" width="30%"/>
-    <img src="./ScreenShots/confirm.png" alt="User Ride History" width="30%"/>
-</div>
-
-### Captain Screens
-<div style="display: flex; justify-content: space-between;">
-    <img src="./ScreenShots/captain_dashboard.png" alt="Captain Dashboard" width="30%"/>
-    <img src="./ScreenShots/ride_request.png" alt="Captain Ride Requests" width="30%"/>
-    <img src="./ScreenShots/accept_ride.png" alt="Captain Earnings" width="30%"/>
-</div>
 
 
 ## Conclusion
