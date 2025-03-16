@@ -181,14 +181,20 @@ module.exports.getCaptainInTheRadius = async (ltd, lng, radius) => {
 
 ## Screenshots
 
-### User Dashboard
-![User Dashboard](./ScreenShots/Pickup_and_dest.png)
+### User Screens
+<div style="display: flex; justify-content: space-between;">
+    <img src="./ScreenShots/Pickup_and_dest.png" alt="User Dashboard" width="30%"/>
+    <img src="./ScreenShots/Pickup_and_dest.png" alt="User Profile" width="30%"/>
+    <img src="./ScreenShots/Pickup_and_dest.png" alt="User Ride History" width="30%"/>
+</div>
 
-### Captain Dashboard
-![Captain Dashboard](./screenshots/captain_dashboard.png)
+### Captain Screens
+<div style="display: flex; justify-content: space-between;">
+    <img src="./ScreenShots/Pickup_and_dest.png" alt="Captain Dashboard" width="30%"/>
+    <img src="./ScreenShots/Pickup_and_dest.png" alt="Captain Ride Requests" width="30%"/>
+    <img src="./ScreenShots/Pickup_and_dest.png" alt="Captain Earnings" width="30%"/>
+</div>
 
-### Ride Booking Page
-![Ride Booking](./screenshots/ride_booking.png)
 
 ## Conclusion
 This project successfully integrates user and captain management, ride booking, real-time location fetching, and pricing calculation. Further improvements can include:
