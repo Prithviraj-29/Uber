@@ -49,6 +49,10 @@ const CaptainHome = () => {
 
   },[captain])
 
+  socket.on('new-ride',(data)=>{
+    console.log(data)
+  })
+
   const ridePopUpPanelRef = useRef(null);
   const confirmRidePopUpPanelRef = useRef(null);
 

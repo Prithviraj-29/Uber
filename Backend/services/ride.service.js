@@ -34,7 +34,7 @@ async function getFare(pickup, destination) {
 
     return fare;
 }
-module.exports.getFare =getFare
+module.exports.getFare = getFare
 
 function getOtp() {
 

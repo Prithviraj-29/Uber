@@ -10,8 +10,9 @@ module.exports.getAddressCoordinate = async (address) => {
 
         if (response.data && response.data.length > 0) {
             const location = response.data[0];
+
             return {
-                lat: location.lat,
+                ltd: location.lat,
                 lng: location.lon,
             };
         } else {
@@ -37,11 +38,11 @@ module.exports.getDistanceTime = async (origin, destination) => {
         console.log("Origin Coords:", originCoords);
         console.log("Destination Coords:", destinationCoords);
 
-        if (!originCoords.lat || !originCoords.lng || !destinationCoords.lat || !destinationCoords.lng) {
+        if (!originCoords.ltd || !originCoords.lng || !destinationCoords.ltd || !destinationCoords.lng) {
             throw new Error('Invalid coordinates received');
         }
 
-        const url = `https://us1.locationiq.com/v1/directions/driving/${originCoords.lat},${originCoords.lng};${destinationCoords.lat},${destinationCoords.lng}?key=${apiKey}&overview=false`;
+        const url = `https://us1.locationiq.com/v1/directions/driving/${originCoords.ltd},${originCoords.lng};${destinationCoords.ltd},${destinationCoords.lng}?key=${apiKey}&overview=false`;
 
         const response = await axios.get(url);
 
